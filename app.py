@@ -25,6 +25,7 @@ def init_db():
         conn.commit()
 
 init_db()
+
 tests_data = {
     "quantitative": [{"id": i, "q": f"Quantitative Q{i}: What is {10+i} + {5+i}?", "options": [str(15+2*i), str(20+i), str(10+i), "None"], "answer": str(15+2*i)} for i in range(1, 21)],
     "logical": [{"id": i, "q": f"Logical Reasoning Q{i}: If A=1, B=2, code for index {i}?", "options": [str(i), str(i+1), "A", "B"], "answer": str(i)} for i in range(1, 21)],
@@ -32,12 +33,14 @@ tests_data = {
 }
 
 @app.route('/')
+
 def home():
     if 'username' in session:
         return render_template('index.html', logged_in=True, username=session['username'])
     return render_template('index.html', logged_in=False)
 
 @app.route('/register', methods=['POST'])
+
 def register():
     data = request.json
     hashed_pw = generate_password_hash(data['password'])
@@ -82,6 +85,7 @@ def submit_score():
     return jsonify({"success": True})
 
 @app.route('/get_history', methods=['GET'])
+
 def get_history():
     if 'username' not in session:
         return jsonify([])
